@@ -22,4 +22,10 @@ interface NotesDao {
 
     @Query("SELECT * FROM Notes ORDER BY modifiedTime DESC")
     fun readNotes(): LiveData<List<Note>>
+
+    @Query("SELECT * FROM Notes WHERE id = :id LIMIT 1")
+    fun readNoteById(id: Int): Note
+
+    @Query("SELECT * FROM Notes WHERE title LIKE :value OR description like :value ORDER BY modifiedTime DESC")
+    fun searchNote(value: String): List<Note>
 }

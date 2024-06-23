@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.liveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -34,5 +35,15 @@ class NotesViewModel(application: Application): AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteNote(note)
         }
+    }
+
+    fun readNoteById(id: Int) = liveData(Dispatchers.IO) {
+        val note = repository.readNoteById(id)
+        emit(note)
+    }
+
+    fun searchNote(value: String) = liveData(Dispatchers.IO) {
+        val notes = repository.searchNote(value)
+        emit(notes)
     }
 }
